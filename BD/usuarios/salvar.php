@@ -7,6 +7,7 @@ $postjson = json_decode(file_get_contents('php://input'), true);
 $id = @$postjson['id_coletor'];
 $nome = @$postjson['nome_coletor'];
 $email = @$postjson['email_coletor'];
+$localColetor = @$postjson['local_coletor'];
 $senha = @$postjson['senha_coletor'];
 $pontosColetor = @$postjson['pontos_coletor'];
 $telefoneColetor = @$postjson['telefone_coletor'];
@@ -26,10 +27,10 @@ if ($total_reg > 0 and $res[0]['id_coletor'] != $id) {
 
 
 if ($id == "" || $id == "0") {
-	$res = $pdo->prepare("INSERT INTO $tabela SET nome_coletor = :nome, email_coletor = :email, senha_coletor = :senha, pontos_coletor = :pontosColetor, telefone_coletor = :telefoneColetor, contabancaria_coletor = :contaBancoColetor");
+	$res = $pdo->prepare("INSERT INTO $tabela SET nome_coletor = :nome, email_coletor = :email, senha_coletor = :senha, telefone_coletor = :telefoneColetor, local_coletor = :localColetor, contabancaria_coletor = :contaBancoColetor, pontos_coletor = :pontosColetor");
 
 } else {
-	$res = $pdo->prepare("UPDATE $tabela SET nome_coletor = :nome, email_coletor = :email, senha_coletor = :senha, pontos_coletor = :pontosColetor, telefone_coletor = :telefoneColetor, contabancaria_coletor = :contaBancoColetor where id_coletor = '$id'");
+	$res = $pdo->prepare("UPDATE $tabela SET nome_coletor = :nome, email_coletor = :email, senha_coletor = :senha, telefone_coletor = :telefoneColetor, local_coletor = :localColetor, contabancaria_coletor = :contaBancoColetor, pontos_coletor = :pontosColetor where id_coletor = '$id'");
 
 }
 
@@ -37,6 +38,7 @@ if ($id == "" || $id == "0") {
 $res->bindValue(":nome", "$nome");
 $res->bindValue(":senha", "$senha");
 $res->bindValue(":email", "$email");
+$res->bindValue(":localColetor", "$localColetor");
 $res->bindValue(":pontosColetor", "$pontosColetor");
 $res->bindValue(":telefoneColetor", "$telefoneColetor");
 $res->bindValue(":contaBancoColetor", "$contaBancoColetor");

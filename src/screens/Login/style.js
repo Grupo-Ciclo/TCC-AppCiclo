@@ -1,12 +1,14 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, ImageBackground } from 'react-native';
 import fonts from '../../styles/fonts';
-import fundo from '../../assets/fundo.jpeg'
 
-export const styles = StyleSheet.create({
+
+
+
+export const styles = StyleSheet.create({  
     container:{
       flex: 1,
-      background: source ={fundo},
       alignItems: 'center',
+      ImageBackground: '../../assets/fundo.jpeg',
       paddingHorizontal: 40,
       justifyContent: 'center'
     },

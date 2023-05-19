@@ -24,6 +24,7 @@ for ($i=0; $i < count($res); $i++) {
         'email' => $res[$i]['email_coletor'],
         'senha' => $res[$i]['senha_coletor'],
         'pontos' => $res[$i]['pontos_coletor'],
+        'local' => $res[$i]['local_coletor'],
         'telefone' => $res[$i]['telefone_coletor'],
         'conta' => $res[$i]['contabancaria_coletor'],
         

@@ -5,9 +5,6 @@ import { RectButton } from 'react-native-gesture-handler';
 import { AntDesign, Ionicons } from '@expo/vector-icons';
 import { styles } from './style';
 import { Success } from '../../lotties/Success';
-//import { TextInputMask } from 'react-native-masked-text';
-//import DateTimePicker from '@react-native-community/datetimepicker';
-//import { format } from 'date-fns';
 import { showMessage, hideMessage } from "react-native-flash-message";
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -32,7 +29,10 @@ const NovoUsuario= FC= () => {
     const [nome, setNome] = useState("");   
     const [email, setEmail] = useState("");   
     const [senha, setSenha] = useState("");
-    const [nivel, setNivel] = useState("");
+    const [localColetor, setLocalColetor] = useState("");
+    const [pontosColetor, setPontosColetor] = useState("");
+    const [telefoneColetor, setTelefoneColetor] = useState("");
+    const [contaBancoColetor, setContaBancoColetor] = useState("");
   
        
     const [sucess, setSucess] = useState(false);
@@ -42,7 +42,7 @@ const NovoUsuario= FC= () => {
     async function saveData() {            
        
               
-           if (nome == "" || email == "" || senha == "") {
+           if (nome == "" || email == "" || senha == "" || pontosColetor == "" || telefoneColetor == "" || contaBancoColetor == "") {
             showMessage({
                 message: "Erro ao Salvar",
                 description: 'Preencha os Campos Obrigatórios!',
@@ -57,7 +57,10 @@ const NovoUsuario= FC= () => {
                 nome: nome,               
                 email: email,
                 senha: senha,
-                nivel: nivel,
+                local: localColetor,
+                pontosColetor: pontosColetor,
+                telefoneColetor: telefoneColetor,
+                contaBancoColetor: contaBancoColetor,
                 
             }
      
@@ -102,7 +105,10 @@ const NovoUsuario= FC= () => {
                 setNome(res.data.dados.nome);
                 setEmail(res.data.dados.email);
                 setSenha(res.data.dados.senha);
-                setNivel(res.data.dados.nivel);
+                setPontosColetor(res.data.dados.pontosColetor);
+                setLocalColetor(res.data.dados.localColetor);
+                setTelefoneColetor(res.data.dados.telefoneColetor);
+                setContaBancoColetor(res.data.dados.contaBancoColetor);
                
                 setEdit(false);
                 
@@ -201,19 +207,44 @@ const NovoUsuario= FC= () => {
 
             
             <View>
-                <Text style={styles.TitleInputs}>Nível</Text>
+                <Text style={styles.TitleInputs}>Pontos</Text>
 
                 <TextInput
-                    placeholder="Nível"
-                    onChangeText={(text) => setNivel(text)}
-                    value={nivel}
+                    placeholder="Seus pontos"
+                    onChangeText={(text) => setPontosColetor(text)}
+                    value={pontosColetor}
+                    style={styles.TextInput}
+                   
+                />
+            </View>
+
+
+
+            <View>
+                <Text style={styles.TitleInputs}>Telefone</Text>
+
+                <TextInput
+                    placeholder="Seu número de celular/telefone"
+                    onChangeText={(text) => setTelefoneColetor(text)}
+                    value={telefoneColetor}
                     style={styles.TextInput}
                    
                 />
             </View>
 
            
-        
+                
+            <View>
+                <Text style={styles.TitleInputs}>Conta Bancaria</Text>
+
+                <TextInput
+                    placeholder="Sua conta bancária"
+                    onChangeText={(text) => setContaBancoColetor(text)}
+                    value={contaBancoColetor}
+                    style={styles.TextInput}
+                   
+                />
+            </View>
            
                 <TouchableOpacity
                     style={styles.Button}
