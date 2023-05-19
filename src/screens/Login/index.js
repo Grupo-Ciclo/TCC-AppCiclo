@@ -94,9 +94,7 @@ export default function Login() {
         Não tem uma conta?{' '}
         <Text
           style={styles.hyperlinkStyle}
-          onPress={() => {
-            Linking.openURL('../NovoUsuario/index.js');
-          }}>
+          onPress={() => navigation.navigate('NovoUsuario')}>
           Cadastre-se
         </Text>
       </Text>

@@ -5,13 +5,15 @@ $tabela = 'coletor';
 $postjson = json_decode(file_get_contents('php://input'), true);
 
 $id = @$postjson['id_coletor'];
-$nome = @$postjson['nome_coletor'];
-$email = @$postjson['email_coletor'];
-$localColetor = @$postjson['local_coletor'];
-$senha = @$postjson['senha_coletor'];
-$pontosColetor = @$postjson['pontos_coletor'];
-$telefoneColetor = @$postjson['telefone_coletor'];
-$contaBancoColetor = @$postjson['contabancaria_coletor'];
+$nome = @$postjson['nome'];
+$email = @$postjson['email'];
+$localColetor = @$postjson['local'];
+$senha = @$postjson['senha'];
+$pontosColetor = @$postjson['pontosColetor'];
+$telefoneColetor = @$postjson['telefoneColetor'];
+$contaBancoColetor = @$postjson['contabancariaColetor'];
+
+
 
 
 //validar email
