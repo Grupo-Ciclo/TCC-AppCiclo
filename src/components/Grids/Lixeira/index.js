@@ -22,8 +22,8 @@ export default function Usuario() {
 
     async function loadData() {        
       try {
-          const response = await api.get(`TCC-Ciclo/bd/usuarios/listar.php?pagina=${page}&limite=10`);
-
+          /* const response = await api.get(`TCC-Ciclo/bd/lixeira/listar.php?pagina=${page}&limite=10`); */
+          const response = await api.get(`TCC-Ciclo/bd/lixeira/lixeira.php?pagina=${page}&limite=10`);
           if(lista.length >= response.data.totalItems) return;
 
           if (loading === true) return;
@@ -56,9 +56,13 @@ export default function Usuario() {
     )
 }
 
+
+
+
+
   async function Search() {
-    const response = await api.get(`apiModelo/usuarios/buscar.php?buscar=${busca}`);
-    setLista(response.data.resultado);
+  //  const response = await api.get(`apiModelo/usuarios/buscar.php?buscar=${busca}`);
+  //  setLista(response.data.resultado);
  }
 
  useEffect(() => {

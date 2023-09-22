@@ -6,7 +6,7 @@ $postjson = json_decode(file_get_contents('php://input'), true);
 
 $buscar = '%' .@$_GET['buscar']. '%';
 
-$query = $pdo->prepare("SELECT * from coletor where nome_coletor LIKE '$buscar' or email_coletor LIKE '$buscar' order by id_coletor desc");
+$query = $pdo->prepare("SELECT * from all_info INNER JOIN coletor on info_id_coletor = id_coletor INNER JOIN lixeira on info_id_lixeira = id_lixeira where nome_coletor LIKE '$buscar' or email_coletor LIKE '$buscar' order by id_coletor desc");
 
 $query->execute();
 

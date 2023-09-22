@@ -18,9 +18,13 @@ import api from '../../services/api';
 export default function Login() {
   const navigation = useNavigation();
 
+
   const [logged, setLogged] = useState(0);
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
+  const [nome, setNome] = useState('');
+
+
 
   async function login() {
     const obj = { email, senha };
@@ -29,13 +33,14 @@ export default function Login() {
     if (res.data.result === 'Dados Incorretos!') {
       Alert.alert('Ops!', 'Dados Incorretos!');
     } else {
-      //await AsyncStorage.setItem('@user', JSON.stringify(res.data.result[0].id));
-      //await AsyncStorage.setItem('@nivel', JSON.stringify(res.data.result[0].nivel));
+    await AsyncStorage.setItem('@user', JSON.stringify(res.data.result[3].id));
+    await AsyncStorage.setItem('@userEmail', email);
 
       navigation.reset({
         index: 0,
-        routes: [{ name: 'Home' }]
+        routes: [{ name: 'Home'}]
       });
+
     }
 
   }
@@ -46,6 +51,7 @@ export default function Login() {
 
     if (user) {
       setLogged(1);
+   
 
       navigation.reset({
         index: 0,
@@ -64,6 +70,8 @@ export default function Login() {
   return (
     <View style={styles.container}>
       <StatusBar translucent hidden />
+
+
 
       <Image style={styles.logo} source={require('../../assets/ciclo_logo.png')} />
 

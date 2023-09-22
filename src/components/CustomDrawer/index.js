@@ -1,6 +1,6 @@
 import React from 'react';
 import { Alert, Image, ScrollView, Text, TouchableOpacity, View } from 'react-native';
-import { MaterialIcons, Entypo } from '@expo/vector-icons';
+import { Ionicons, Entypo } from '@expo/vector-icons';
 
 import { styles } from './styles';
 import { DrawerActions, useNavigation } from '@react-navigation/core';
@@ -32,7 +32,7 @@ const CustomDrawer= FC = () => {
 
     return (
         <View style={{ flex: 1, backgroundColor: '#fff' }}>
-            <Image style={styles.logo} source={require('../../assets/logo2.png')} />
+            <Image style={styles.logo} source={require('../../assets/ciclo_logo.png')} />
 
             <View style={{ width: '90%', backgroundColor: '#c1c1c1', height: 0.5, alignSelf: 'center', marginBottom: 5, marginTop: 20 }}></View>
 
@@ -47,14 +47,39 @@ const CustomDrawer= FC = () => {
                             navigation.dispatch(DrawerActions.closeDrawer())
                         }}
                     >
-                        <MaterialIcons style={styles.iconRegistered} name="people-alt" size={30} color="gray" />
+                        <Ionicons style={styles.iconRegistered} name="person-outline" size={30} color="gray" />
 
-                        <Text style={styles.PagesText}>Usuários</Text>
+                        <Text style={styles.PagesText}>Usuário</Text>
                     </TouchableOpacity>
-
-                   
                 </View>
 
+                <View>
+                    <TouchableOpacity
+                        style={styles.Pages}
+                        onPress={() => {
+                            navigation.navigate("Camera")
+                            navigation.dispatch(DrawerActions.closeDrawer())
+                        }}
+                    >
+                        <Ionicons style={styles.iconRegistered} name="camera" size={30} color="gray" />
+
+                        <Text style={styles.PagesText}>Ler código QR</Text>
+                    </TouchableOpacity>
+                </View>
+
+                <View>
+                    <TouchableOpacity
+                        style={styles.Pages}
+                        onPress={() => {
+                            navigation.navigate("Lixeira")
+                            navigation.dispatch(DrawerActions.closeDrawer())
+                        }}
+                    >
+                        <Ionicons style={styles.iconRegistered} name="trash-outline" size={30} color="gray" />
+
+                        <Text style={styles.PagesText}>Informações da Lixeira</Text>
+                    </TouchableOpacity>
+                </View>
 
        
             </ScrollView>
@@ -64,7 +89,7 @@ const CustomDrawer= FC = () => {
                     onPress={() => logout()}
                     style={styles.Sair}
                 >
-                    <MaterialIcons name="subdirectory-arrow-left" size={25} color="gray" />
+                    <Ionicons name="log-out-outline" size={25} color="gray"/>
                     <Text style={styles.SairText}>Sair da conta</Text>
                 </TouchableOpacity>
             </View>

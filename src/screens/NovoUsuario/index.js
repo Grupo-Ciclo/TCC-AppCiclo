@@ -157,7 +157,7 @@ const NovoUsuario= FC= () => {
                     :
 
                     <View style={styles.Title}>
-                        <Text style={styles.TitleText}>Editar Registro</Text>
+                        <Text style={styles.TitleText}>Cadastro</Text>
                     </View>
                 }
 
@@ -255,7 +255,7 @@ const NovoUsuario= FC= () => {
                         setSucess(false);
                     }}
                 >
-                    <Text style={styles.ButtonText}>Salvar Registro</Text>
+                    <Text style={styles.ButtonText}>Cadastrar</Text>
                 </TouchableOpacity>
 
                 </ScrollView>

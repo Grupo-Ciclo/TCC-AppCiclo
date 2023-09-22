@@ -5,7 +5,7 @@ import { styles } from './style';
 import { Ionicons } from '@expo/vector-icons';
 
 const DadosProps = {
-    title: string=""    
+    title: string=""
 }
 
 export const Header = ({ title }= DadosProps) => {

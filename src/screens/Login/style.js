@@ -35,7 +35,7 @@ export const styles = StyleSheet.create({
     loginSave:{
       justifyContent: 'center',
       alignItems: 'center',
-      backgroundColor: '#e36222',
+      backgroundColor: '#2F8643',
       marginTop: 15,
       width: '100%',
       height: 50,
@@ -118,6 +118,9 @@ export const styles = StyleSheet.create({
       color: 'black',
     },
 
+    hyperlinkStyle:{
+      color: '#2F8643'
+    }
 })
 
 
