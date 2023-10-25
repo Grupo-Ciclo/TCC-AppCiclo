@@ -1,143 +1,172 @@
-import { useNavigation } from "@react-navigation/core";
-import React, { useEffect, useState } from "react";
-import {styles} from './style';
-import {ScrollView, ActivityIndicator, FlatList, Image, TextInput, TouchableOpacity, View, Dimensions, Alert } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import React, { useState, useEffect } from 'react';
+import { Image, TextInput, AsyncStorage, Modal, Alert, Linking, Text, TouchableOpacity, View } from 'react-native';
+import SwipeableRow from '../../Linhas/Usuarios';
+import api from '../../../services/api';
+import url from '../../../services/url';
+import { styles } from './styles';
+import { showMessage, hideMessage } from "react-native-flash-message";
+import { Evilions, Ionsions, AntDesign, Ionicons } from '@expo/vector-icons';
+//import * as ImagePicker from 'expo-image-picker';
 
-import Header from '../../components/Header';
-import { Ionicons } from '@expo/vector-icons';
-import api from '../../services/api';
-import Grid from '../../components/Grids/Usuarios';
-
-export default function Usuario() {
-
-  const navigation = useNavigation();
-
-    const [lista, setLista] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const [page, setPage] = useState(1);
-    const [totalItems, setTotalItems] = useState(0);
-    const [busca, setBusca] = useState("");
-    const [onEndReachedCalledDuringMomentum, setMT] = useState(true);
-
-
-    async function loadData() {        
-      try {
-          /* const response = await api.get(`TCC-Ciclo/bd/lixeira/listar.php?pagina=${page}&limite=10`); */
-          const response = await api.get(`TCC-Ciclo/bd/lixeira/lixeira.php?pagina=${page}&limite=10`);
-          if(lista.length >= response.data.totalItems) return;
-
-          if (loading === true) return;
-    
-          setLoading(true);
-    
-          setLista([...lista, ...response.data.resultado]);
-          setPage(page + 1);
-        } catch (error) {
-          console.log(error)
-        }
-  }
-
-
-  const renderItem = function ({ item }) {
-    return (
-        <Grid
-            data={item}
-        />
-    )
-}
-
-  function Footer() {
-    if (!load) return null;
-
-    return (
-        <View style={styles.loading}>
-            <ActivityIndicator size={25} color="#000" />
-        </View>
-    )
+const DadosProps = {
+    data: {
+        id: string,
+        lixeiraLocal: string,
+        QRcode: string,
+        pesoAt: string,
+        pesoMax: string,
+    }
 }
 
 
+CardLixeira = ({ data } = DadosProps) => {
+
+    const [abrirModal, setAbrirModal] = useState(false);
+    const navigation = any = useNavigation();
 
 
+    async function excluir(nome, id) {
 
-  async function Search() {
-  //  const response = await api.get(`apiModelo/usuarios/buscar.php?buscar=${busca}`);
-  //  setLista(response.data.resultado);
- }
+        Alert.alert('Sair', `Você tem certeza que deseja excluir o Registro : ` + nome, [
+            {
+                text: 'Não',
+                style: 'cancel',
+            },
 
- useEffect(() => {
-  loadData();
-}, [page, totalItems, lista]);
+            {
+                text: 'Sim',
+                onPress: async () => {
+                    try {
+                        const response = await api.get(`apiModelo/usuarios/excluir.php?id=${id}`);
 
-  return (
-    <View style={styles.container}>
+                        showMessage({
+                            message: "Excluído Sucesso",
+                            description: "Registro Excluído",
+                            type: "info",
+                            duration: 800,
+                        });
 
-      <Header title="Lista de Usuários"></Header>
-
-      <View style={{ paddingHorizontal: 15, flex: 1, }}>
-        <View style={styles.containerSearch}>
-          <TextInput
-            style={styles.search}
-            placeholder="Buscar Por Documento ou Nome"
-            placeholderTextColor="gray"
-            keyboardType="default"
-            onChangeText={(busca) => setBusca(busca)}
-            returnKeyType="search"
-            onTextInput={() => Search()}
-          />
-
-          <TouchableOpacity
-            style={styles.iconSearch}
-            onPress={() => Search()}
-          >
-            <Ionicons name="search-outline" size={28} color="gray" />
-          </TouchableOpacity>
-        </View>
+                        navigation.push('Usuarios');
+                    } catch (error) {
+                        Alert.alert('Não foi possivel excluir, tente novamente!')
+                    }
+                }
+            }
+        ])
+    }
 
 
-        <View style={{ flex: 1, height: Dimensions.get('window').height + 30, }}>
-               
-                    <FlatList
-                        data={lista}
-                        renderItem={renderItem}
-                        keyExtractor={item => String(item.id)}
-                        onEndReachedThreshold={0.1}
-                        removeClippedSubviews
-                        initialNumToRender={10}
-                        onEndReached={(distanceFromEnd) => {
-                          if (!onEndReachedCalledDuringMomentum) {
-                            loadData().then(() => setLoading(false));
-                            setMT(true);
-                          }
+    return (
+
+
+        <>
+
+
+            {data.id === undefined && data.nome === undefined ?
+
+                <Text style={{ color: '#595858', fontSize: 14, marginTop: 10, alignContent: "center", textAlign: "center" }}>Nenhum Registro Encontrado!</Text>
+
+                :
+
+                <View>
+                    <SwipeableRow
+                        onPressWhatsapp={async () => {
+                            await Linking.openURL(`http://api.whatsapp.com/send?1=pt_BR&phone=55${data.nome}`)
                         }}
-                        ListFooterComponent={(distanceFromEnd) => {
-                          if (!onEndReachedCalledDuringMomentum) {
-                            return <Footer load={loading} />
-                          } else {
-                            return <View></View>
-                          }
-                        }}
-                        onMomentumScrollBegin={() => setMT(false)}
-                        windowSize={10}
-                        getItemLayout={(data, index) => (
-                          { length: 50, offset: 50 * index, index }
-                        )}
-                    />
-                   
-                </View>
 
-                <View style={styles.containerFloat}>
-                    <TouchableOpacity
-                        style={styles.CartButton}
-                        onPress={() => navigation.push("NovoUsuario", { id_reg: '0' })}
+                        onPressEdit={async () => {
+                            navigation.push('NovoUsuario', { id_reg: data.id });
+                        }}
+
+                        onPressDelete={async () => {
+                            excluir(data.nome, data.id);
+                        }}
+
+
                     >
-                        <Ionicons name="add-outline" size={35} color="#fff" />
-                    </TouchableOpacity>
+                        <TouchableOpacity
+                            style={styles.box}
+                            onPress={() => setAbrirModal(true)}
+                        >
+                            <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', marginTop: -5 }}>
+                                <View style={{ width: 65 }}>
+                                    <Image style={{ width: 50, height: 50, }} source={{ uri: (url + 'apiModelo/imagem.jpg') }} />
+                                </View>
+                                <View style={{ width: '100%', marginTop: 3 }}>
+                                    <Text style={{ color: '#000', fontSize: 12 }}>{data.QRcode} - {data.id}</Text>
+                                    <Text style={{ color: '#000', fontSize: 12 }}>{data.lixeiraLocal} - PesoAt: {data.pesoAt}</Text>
+                                </View>
+                            </View>
+
+
+                        </TouchableOpacity>
+                    </SwipeableRow>
+
                 </View>
+            }
 
 
-      </View>
 
-    </View>
-  )
+            <Modal
+                visible={abrirModal}
+                animationType={'fade'}
+                transparent={true}
+                onRequestClose={() => {
+                    setAbrirModal(!abrirModal)
+                }}
+            >
+                <View style={styles.centralizarModal}>
+                    <View style={styles.CardContainerModal}>
+                        <TouchableOpacity
+                            style={styles.removeItem}
+                            onPress={() => setAbrirModal(false)}
+                        >
+                            <Evilions name="close" size={25} color="black" />
+                        </TouchableOpacity>
+                        <Text style={styles.Cliente}>{data.nome} - {data.nivel}</Text>
+
+
+                        <View style={styles.Section}>
+                            <Ionsions style={styles.Icon} name="circle-person-outline" size={22} color="#c1c1c1" />
+
+                        </View>
+
+
+
+                        <View style={styles.Section}>
+                            <Ionsions style={styles.Icon} name="mail" size={22} color="#c1c1c1" />
+                            <Text style={styles.Entrada}>Email: {data.email}</Text>
+                            <Text style={styles.Entrada}>Senha: {data.senha}</Text>
+                        </View>
+
+
+                        <TouchableOpacity onPress={() => Linking.openURL(url + 'painel/images/perfil/' + data.foto)}>
+                            {(() => {
+                                if (data.foto != 'sem-foto.jpg' && data.foto != '' && data.foto != null) {
+
+                                    return (
+                                        <View style={styles.viewImg}>
+                                            <Image style={styles.ImagemModal} source={{ uri: (url + 'painel/images/perfil/' + data.foto) }} />
+                                            <Text style={styles.textoAbrir}>(Clique para Abrir)</Text>
+                                        </View>
+                                    )
+
+                                }
+
+                            })()}
+                        </TouchableOpacity>
+
+
+
+                    </View>
+                </View>
+            </Modal>
+
+
+
+        </>
+    );
 }
+
+export default CardLixeira;

@@ -1,32 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import { useNavigation } from "@react-navigation/native";
+import React, { useEffect, useState } from "react";
 import { styles } from './style';
-import {
-    SafeAreaView,
-    Text,
-    View,
-    ScrollView,
-    TouchableOpacity,
-    Image,
-    ActivityIndicator,
-    RefreshControl,
-    StatusBar,
-    Alert,
-
-} from 'react-native';
-
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
-import { MaterialIcons } from '@expo/vector-icons';
-//import Load from '../../components/Load';
-import { DrawerActions, useNavigation } from '@react-navigation/core';
+import { ScrollView, ActivityIndicator, FlatList, Image, Text, TextInput, TouchableOpacity, View, Dimensions, RefreshControl, StatusBar, Alert } from 'react-native';
+import Header from '../../components/Header';
+import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import api from '../../services/api';
-import { AnimatedCircularProgress } from 'react-native-circular-progress';
-
+import url from "../../services/url";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { DrawerActions } from "@react-navigation/native";
 import { useIsFocused } from '@react-navigation/native';
-import pontos from '../Login/index';
-import { useRoute } from '@react-navigation/native';
-import Login from '../Login/index';
-import CardUsuarios from '../../components/Grids/Usuarios';
+import { AnimatedCircularProgress } from 'react-native-circular-progress';
 
 export default function Home() {
 
@@ -41,17 +24,17 @@ export default function Home() {
 
     async function listarDados() {
         try {
-            await AsyncStorage.setItem('@user', JSON.stringify(res.data.result[4].id));
-            const res = await api.get(`TCC-Ciclo/bd/usuarios/listar.php?user=${user}`);
+            const user = await AsyncStorage.getItem('@user');
+            console.log(user);
+            const res = await api.get(`TCC-Ciclo/bd/usuarios/listar.php?`, user);
             setDados(res.data);
-
+            console.log(res.data);
 
         } catch (error) {
             console.log("Erro ao Listar " + error);
         } finally {
             setIsLoading(false);
             setRefreshing(false);
-
         }
 
     }
@@ -63,19 +46,15 @@ export default function Home() {
     const onRefresh = () => {
         setRefreshing(true);
         listarDados();
-
     };
-
     return (
-
-        <View style={{ flex: 1 }}>
+        <View style={styles.container}>
             <StatusBar barStyle="light-content" />
             <View style={{ flex: 1 }}>
                 <View style={styles.header}>
                     <View style={styles.containerHeader}>
-                        CardUsuarios
-
-                        <Text>Logado: {data.nome} </Text>
+                        <Text>CardUsuarios</Text>
+                        {/* <Text>Logado: {data.nome} </Text> */}
                         <TouchableOpacity
                             style={styles.menu}
                             onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
@@ -86,12 +65,10 @@ export default function Home() {
 
                             style={styles.loginSave}
                             onPress={listarDados}
-                        > {usu}</Text>
+                        > </Text>
 
                     </View>
                 </View>
-
-
                 <ScrollView
                     style={{ flex: 1 }}
                     showsVerticalScrollIndicator={false}
@@ -136,9 +113,7 @@ export default function Home() {
 
 
                 </ScrollView>
-
             </View>
         </View>
     )
-
 }

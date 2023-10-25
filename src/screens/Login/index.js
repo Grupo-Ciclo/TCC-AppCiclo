@@ -17,8 +17,6 @@ import api from '../../services/api';
 
 export default function Login() {
   const navigation = useNavigation();
-
-
   const [logged, setLogged] = useState(0);
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
@@ -27,18 +25,21 @@ export default function Login() {
 
 
   async function login() {
+    console.log(email);
+    console.log(senha); 
     const obj = { email, senha };
-    const res = await api.post('TCC-Ciclo/bd/login/login.php', obj);
+    const res = await api.post('TCC-Ciclo/BD/login/login.php', obj);
+    console.log(res.data)
+    await AsyncStorage.setItem('@user', JSON.stringify(res.data.result[0].id));
 
     if (res.data.result === 'Dados Incorretos!') {
       Alert.alert('Ops!', 'Dados Incorretos!');
     } else {
-    await AsyncStorage.setItem('@user', JSON.stringify(res.data.result[3].id));
-    await AsyncStorage.setItem('@userEmail', email);
-
+       await AsyncStorage.setItem('@user', JSON.stringify(res.data.result[0].id));
+      await AsyncStorage.setItem('@userEmail', email);
       navigation.reset({
         index: 0,
-        routes: [{ name: 'Home'}]
+        routes: [{ name: 'Home' }]
       });
 
     }
@@ -51,7 +52,7 @@ export default function Login() {
 
     if (user) {
       setLogged(1);
-   
+
 
       navigation.reset({
         index: 0,
@@ -70,15 +71,14 @@ export default function Login() {
   return (
     <View style={styles.container}>
       <StatusBar translucent hidden />
-
-
-
       <Image style={styles.logo} source={require('../../assets/ciclo_logo.png')} />
 
       <View style={styles.form}>
         <TextInput
           style={styles.login}
           placeholder="Email"
+          placeholderTextColor='#413B33'
+
           value={email}
           onChangeText={(email) => setEmail(email)}
         />

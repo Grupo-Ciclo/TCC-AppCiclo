@@ -1,5 +1,4 @@
 import React from 'react';
-
 import {
     Text,
     TouchableOpacity,
@@ -7,7 +6,7 @@ import {
 } from 'react-native';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { AntDesign, Ionicons } from '@expo/vector-icons';
+import { AntDesign, MaterialIcons, MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
 
 import fonts from '../styles/fonts';
 
@@ -21,7 +20,6 @@ const AppTab = createBottomTabNavigator();
 
 const AuthRoutes = () => {
     const navigation = useNavigation();
-
     return (
         <AppTab.Navigator
             screenOptions={{
@@ -30,7 +28,6 @@ const AuthRoutes = () => {
                 tabBarHideOnKeyboard: false,
                 tabBarLabelPosition: 'below-icon',
                 headerShown: false,
-
                 tabBarStyle: {
                     height: 65,
                     paddingTop: 10
@@ -93,10 +90,10 @@ const AuthRoutes = () => {
                 options={{
                     tabBarIcon: (({ size, color }) => (
                         <Ionicons
-                            name="people-circle-outline"
-                            size={size}
-                            color={color}
-                        />
+                        name="people-circle-outline"
+                        size={size}
+                        color={color}
+                    />
                     )),
 
                     tabBarLabel: (({ focused, color }) => (
@@ -137,7 +134,6 @@ const AuthRoutes = () => {
             <AppTab.Screen
                 name="Mapa"
                 component={Mapa}
-
                 options={{
                     tabBarIcon: (({ size, color }) => (
                         <Ionicons
@@ -181,7 +177,7 @@ const AuthRoutes = () => {
                         </View>
                     ))
                 }}
-            />
+            />            
         </AppTab.Navigator>
     )
 }

@@ -6,40 +6,37 @@ import { useNavigation } from '@react-navigation/core';
 
 import Home from '../screens/Home';
 import CustomDrawer from '../components/CustomDrawer';
+import Usuario from '../screens/Usuario';
 
 const DrawerRoutes = () => {
-    
+
     const Drawer = createDrawerNavigator();
 
     return (
-    <Drawer.Navigator 
-        screenOptions={{
-            headerShown:false,
-            drawerStyle:{
-            width: 250,
-            height: '100%',
-            justifyContent: 'center',
-            backgroundColor: '#f2f2f2',
-            zIndex: 11,
-            
-            }
-        }}
-        drawerContent={props => <CustomDrawer />}
-    >
-        <Drawer.Screen 
-            name="Home"
-            component={Home}
-            
-        />
-
-    </Drawer.Navigator>
+        <Drawer.Navigator
+            drawerContent={() => <CustomDrawer />}
+            screenOptions={{
+                headerShown: false,
+                drawerStyle: {
+                    width: 300,
+                    height: '100%',
+                    backgroundColor: '#f2f2f2',
+                    zIndex: 11,
+                }
+            }}
+        >
+            <Drawer.Screen
+                name="Home"
+                component={Home}
+            />
+        </Drawer.Navigator>
     )
 }
 
 export default DrawerRoutes;
 
 const styles = StyleSheet.create({
-    container:{
+    container: {
         width: 60,
         height: 60,
         borderRadius: 30,
@@ -49,7 +46,7 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
 
-    logout:{
+    logout: {
         paddingTop: '190%',
         borderTopWidth: 1,
         borderTopColor: '#ccc',
