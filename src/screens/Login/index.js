@@ -10,10 +10,12 @@ import {
   StatusBar,
   Alert,
   Linking,
+  ImageBackground,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 //import { Splash } from '../../lotties/Splash'; 
 import api from '../../services/api';
+import {image} from '../../assets/cicloBG.png';
 
 export default function Login() {
   const navigation = useNavigation();
@@ -21,8 +23,6 @@ export default function Login() {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [nome, setNome] = useState('');
-
-
 
   async function login() {
     console.log(email);
@@ -41,9 +41,7 @@ export default function Login() {
         index: 0,
         routes: [{ name: 'Home' }]
       });
-
     }
-
   }
 
 
@@ -68,11 +66,16 @@ export default function Login() {
   }, []);
 
 
+
   return (
     <View style={styles.container}>
       <StatusBar translucent hidden />
-      <Image style={styles.logo} source={require('../../assets/ciclo_logo.png')} />
+      
+      <ImageBackground source={image}  style={styles.BG}>
+        <Image source={require('../../assets/cicloBG1.png')}></Image>
+      </ImageBackground>
 
+      <Image style={styles.logo} source={require('../../assets/ciclo_logo.png')} />
       <View style={styles.form}>
         <TextInput
           style={styles.login}

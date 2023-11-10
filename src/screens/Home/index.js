@@ -26,15 +26,18 @@ export default function Home() {
         try {
             const user = await AsyncStorage.getItem('@user');
             console.log(user);
-            const res = await api.get(`TCC-Ciclo/bd/usuarios/listar.php?`, user);
+            const res = await api.get(`TCC-Ciclo/bd/usuarios/listar_id.php?user=${user}`);
             setDados(res.data);
+            console.log(dados)
+            console.log("aaaaa")
+            console.log(dados.dados.conta)
             console.log(res.data);
-
+            
         } catch (error) {
             console.log("Erro ao Listar " + error);
         } finally {
-            setIsLoading(false);
             setRefreshing(false);
+            setIsLoading(true);
         }
 
     }
@@ -53,7 +56,7 @@ export default function Home() {
             <View style={{ flex: 1 }}>
                 <View style={styles.header}>
                     <View style={styles.containerHeader}>
-                        <Text>CardUsuarios</Text>
+                        <Text style={styles.lenghtText}>CardUsuarios</Text>
                         {/* <Text>Logado: {data.nome} </Text> */}
                         <TouchableOpacity
                             style={styles.menu}
@@ -80,8 +83,7 @@ export default function Home() {
                         />
                     }
                 >
-
-                    <View style={styles.containerBox}>
+                        <View style={styles.containerBox}>
 
                         <TouchableOpacity onPress={() => navigation.navigate("Usuario")}>
                             <View>
@@ -96,7 +98,7 @@ export default function Home() {
                                     >
                                         {
                                             (fill) => (
-                                                <Text style={styles.numberInside}>{dados.pontosColetor}</Text>
+                                                <Text style={styles.numberInside}>123.123</Text>
                                             )
                                         }
                                     </AnimatedCircularProgress>
@@ -109,7 +111,8 @@ export default function Home() {
                             </View>
                         </TouchableOpacity>
 
-                    </View>
+                    </View> 
+
 
 
                 </ScrollView>

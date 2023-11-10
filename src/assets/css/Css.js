@@ -18,20 +18,21 @@ const css = StyleSheet.create(
         {
             top: -40
         },
-        marcador:{
-            width: 40,
-            height: 50,
+        marcador: {
+            width: 90,
+            height: 70,
+            backgroundColor: '#0909',
             flexDirection: 'column',
-            borderRadius: 8,
-            alignItems:'center',
-            bottom: 12
-            
+            borderRadius: 10,
+            alignItems: 'center',
+            borderWidth: 3,
+            borderColor: '#000'
         },
-        marcadorImage:{
-            width: 55,
-            height: 55,
-            resizeMode: 'cover'
-        }
+        marcadorImage: {
+            width: '100%',
+            height: '70%',
+            resizeMode: 'cover',
+        },
     }
 );
 export {css};

@@ -131,7 +131,7 @@ export const styles = StyleSheet.create({
         color: '#FFF',
         backgroundColor: '#2F8643',
         textAlign: 'center',
-        fontSize: 15,
+        fontSize: 25,
         borderBottomLeftRadius: 15,
         borderBottomRightRadius: 15,
         fontFamily: fonts.text,

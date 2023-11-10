@@ -2,13 +2,10 @@ import { StyleSheet, ImageBackground } from 'react-native';
 import fonts from '../../styles/fonts';
 
 
-
-
 export const styles = StyleSheet.create({  
     container:{
       flex: 1,
       alignItems: 'center',
-      ImageBackground: '../../assets/fundo.jpeg',
       paddingHorizontal: 40,
       justifyContent: 'center'
     },
@@ -50,10 +47,20 @@ export const styles = StyleSheet.create({
     },
 
     logo:{
-      width: 250,
-      height: 250,
+      width: 255,
+      height: 265,
       marginTop: 5,
       marginBottom: 35
+    },
+
+    BG:{
+      justifyContent: 'center',
+      zIndex: -1,
+      resizeMode: 'cover',
+      width: '100%',
+      height: '100%',
+      position: 'absolute',
+      left: 0,
     },
 
     textoIcon:{
