@@ -1,8 +1,8 @@
 -- --------------------------------------------------------
 -- Servidor:                     127.0.0.1
--- Versão do servidor:           10.1.33-MariaDB - mariadb.org binary distribution
--- OS do Servidor:               Win32
--- HeidiSQL Versão:              9.5.0.5196
+-- Versão do servidor:           10.1.38-MariaDB - mariadb.org binary distribution
+-- OS do Servidor:               Win64
+-- HeidiSQL Versão:              11.3.0.6295
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -10,6 +10,7 @@
 /*!50503 SET NAMES utf8mb4 */;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 
 -- Copiando estrutura do banco de dados para bdtcc
@@ -106,15 +107,16 @@ CREATE TABLE IF NOT EXISTS `lixeira` (
   `QRcode` varchar(350) DEFAULT NULL,
   `pesoAt` double DEFAULT NULL,
   `pesoMax` double DEFAULT NULL,
+  `EnderecoValor` point DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 -- Copiando dados para a tabela bdtcc.lixeira: ~2 rows (aproximadamente)
 DELETE FROM `lixeira`;
 /*!40000 ALTER TABLE `lixeira` DISABLE KEYS */;
-INSERT INTO `lixeira` (`id`, `lixeiraLocal`, `QRcode`, `pesoAt`, `pesoMax`) VALUES
-	(1, 'Etec', 'QRmuitomassa', 112, 2000),
-	(2, 'Casa', 'QRMELHORAINDA', 1234, 1500);
+INSERT INTO `lixeira` (`id`, `lixeiraLocal`, `QRcode`, `pesoAt`, `pesoMax`, `EnderecoValor`) VALUES
+	(1, 'Etec', 'QRmuitomassa', 112, 2000, _binary 0x00000000010100000073b515fbcbeb47c0991a57128f8438c0),
+	(2, 'Casa', 'QRMELHORAINDA', 1234, 1500, _binary 0x000000000101000000e2f3797bc6ed47c0a3956a55018138c0);
 /*!40000 ALTER TABLE `lixeira` ENABLE KEYS */;
 
 -- Copiando estrutura para tabela bdtcc.qrtabela
@@ -138,5 +140,6 @@ INSERT INTO `qrtabela` (`id`, `link`) VALUES
 /*!40000 ALTER TABLE `qrtabela` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
-/*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
+/*!40014 SET FOREIGN_KEY_CHECKS=IFNULL(@OLD_FOREIGN_KEY_CHECKS, 1) */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40111 SET SQL_NOTES=IFNULL(@OLD_SQL_NOTES, 1) */;

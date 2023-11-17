@@ -13,6 +13,7 @@ import fonts from '../styles/fonts';
 import DrawerRoutes from './drawer.routes';
 import Usuario from '../screens/Usuario';
 import Mapa from '../screens/Map'
+import Loja from '../screens/Loja'
 import { DrawerActions, useNavigation } from '@react-navigation/native';
 
 
@@ -90,10 +91,10 @@ const AuthRoutes = () => {
                 options={{
                     tabBarIcon: (({ size, color }) => (
                         <Ionicons
-                        name="people-circle-outline"
-                        size={size}
-                        color={color}
-                    />
+                            name="person"
+                            size={size}
+                            color={color}
+                        />
                     )),
 
                     tabBarLabel: (({ focused, color }) => (
@@ -177,8 +178,57 @@ const AuthRoutes = () => {
                         </View>
                     ))
                 }}
-            />            
+            />
+
+            <AppTab.Screen
+                name="Loja"
+                component={Loja}
+                options={{
+                    tabBarIcon: (({ size, color }) => (
+                        <Ionicons
+                        name="pricetags"
+                        size={size}
+                        color={color}
+                    />
+                    )),
+
+                    tabBarLabel: (({ focused, color }) => (
+                        <View>
+                            <Text
+                                style={focused ? {
+                                    color: color,
+                                    fontFamily: fonts.text,
+                                    fontSize: 12,
+                                    textAlign: 'center',
+                                } : {
+                                    color: color,
+                                    fontFamily: fonts.text,
+                                    fontSize: 12
+                                }}
+                            >
+                                Loja
+                            </Text>
+                            <View
+                                style={focused ? {
+                                    backgroundColor: color,
+                                    borderColor: color,
+                                    width: 90,
+                                    height: 2,
+                                    borderTopLeftRadius: 5,
+                                    borderTopRightRadius: 5,
+                                    marginTop: 5,
+                                } : {
+                                    height: 2,
+                                }}
+                            >
+                            </View>
+                        </View>
+                    ))
+                }}
+            />
+
         </AppTab.Navigator>
+
     )
 }
 

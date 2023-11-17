@@ -76,12 +76,23 @@ const CustomDrawer= FC = () => {
                         }}
                     >
                         <Ionicons style={styles.iconRegistered} name="trash-outline" size={30} color="gray" />
-
                         <Text style={styles.PagesText}>Informações da Lixeira</Text>
                     </TouchableOpacity>
                 </View>
 
-       
+                <View>
+                    <TouchableOpacity
+                        style={styles.Pages}
+                        onPress={() => {
+                            navigation.navigate("Loja")
+                            navigation.dispatch(DrawerActions.closeDrawer())
+                        }}
+                    >
+                        <Ionicons style={styles.iconRegistered} name="pricetags" size={30} color="gray" />
+                        <Text style={styles.PagesText}>Loja</Text>
+                    </TouchableOpacity>
+                </View>
+
             </ScrollView>
 
             <View style={styles.footer}>

@@ -80,8 +80,6 @@ export default function Login() {
         <TextInput
           style={styles.login}
           placeholder="Email"
-          placeholderTextColor='#413B33'
-
           value={email}
           onChangeText={(email) => setEmail(email)}
         />

@@ -7,6 +7,7 @@ import { useNavigation } from '@react-navigation/core';
 import Home from '../screens/Home';
 import CustomDrawer from '../components/CustomDrawer';
 import Usuario from '../screens/Usuario';
+import Loja from '../screens/Loja';
 
 const DrawerRoutes = () => {
 

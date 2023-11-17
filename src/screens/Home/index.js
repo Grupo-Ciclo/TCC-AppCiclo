@@ -16,21 +16,26 @@ export default function Home() {
     const navigation = useNavigation();
     const isFocused = useIsFocused();
 
-    const [dados, setDados] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [refreshing, setRefreshing] = useState(false);
-    const [usu, setUsu] = useState('');
+    const [conta, setConta] = useState('');
     const [email, setEmail] = useState('');
+    const [pontos, setPontos] = useState(0)
+    const [data, setData] = useState(null);
 
     async function listarDados() {
         try {
             const user = await AsyncStorage.getItem('@user');
             console.log(user);
             const res = await api.get(`TCC-Ciclo/bd/usuarios/listar_id.php?user=${user}`);
-            setDados(res.data);
-            console.log(dados)
+            setData(res.data);
+            const pontos_coletor= res.data.result[4].pontos_coletor;
+            setPontos(res.data.result.map(item => item.pontos_coletor));
+
+           setPontos(pontos);
+            console.log(data)
             console.log("aaaaa")
-            console.log(dados.dados.conta)
+            console.log(data.conta)
             console.log(res.data);
             
         } catch (error) {
@@ -56,7 +61,7 @@ export default function Home() {
             <View style={{ flex: 1 }}>
                 <View style={styles.header}>
                     <View style={styles.containerHeader}>
-                        <Text style={styles.lenghtText}>CardUsuarios</Text>
+                        <Text style={styles.lenghtText}>Ciclo</Text>
                         {/* <Text>Logado: {data.nome} </Text> */}
                         <TouchableOpacity
                             style={styles.menu}
@@ -85,25 +90,17 @@ export default function Home() {
                 >
                         <View style={styles.containerBox}>
 
-                        <TouchableOpacity onPress={() => navigation.navigate("Usuario")}>
+                        <TouchableOpacity onPress={() => navigation.navigate("Loja")}>
                             <View>
                                 <View style={styles.box}>
-                                    <AnimatedCircularProgress
-                                        size={80}
-                                        width={8}
-                                        fill={50}
-                                        tintColor="#2F8643"
-                                        backgroundColor="#e0e0e0"
-                                        lineCap={"round"}
-                                    >
                                         {
+
                                             (fill) => (
-                                                <Text style={styles.numberInside}>123.123</Text>
+                                                <Text style={styles.numberInside}> {pontos} </Text>
                                             )
                                         }
-                                    </AnimatedCircularProgress>
                                     <View style={styles.textos}>
-                                        <Text style={styles.rText}>Total de pontos</Text>
+                                        <Text style={styles.rText}>Gaste seus pontos!</Text>
                                         <Text style={styles.lenghtText}></Text>
                                     </View>
                                 </View>
