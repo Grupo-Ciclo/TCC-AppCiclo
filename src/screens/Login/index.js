@@ -15,7 +15,7 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 //import { Splash } from '../../lotties/Splash'; 
 import api from '../../services/api';
-import {image} from '../../assets/cicloBG.png';
+import { image } from '../../assets/cicloBG.png';
 
 export default function Login() {
   const navigation = useNavigation();
@@ -24,18 +24,28 @@ export default function Login() {
   const [senha, setSenha] = useState('');
   const [nome, setNome] = useState('');
 
+  async function storeUserData(id, nome, email, telefone, local, pontos) {
+    try {
+      const userData = JSON.stringify({ id, nome, email, telefone, local, pontos });
+      await AsyncStorage.setItem('userData', userData);
+    } catch (error) {
+      console.log('Error storing user data:', error);
+    }
+  }
+
   async function login() {
     console.log(email);
-    console.log(senha); 
+    console.log(senha);
     const obj = { email, senha };
     const res = await api.post('TCC-Ciclo/BD/login/login.php', obj);
-    console.log(res.data)
+    console.log()
+    storeUserData(res.data.result[0].id, res.data.result[0].nome, res.data.result[0].email, res.data.result[0].telefone, res.data.result[0].local, res.data.result[0].pontos)
     await AsyncStorage.setItem('@user', JSON.stringify(res.data.result[0].id));
 
     if (res.data.result === 'Dados Incorretos!') {
       Alert.alert('Ops!', 'Dados Incorretos!');
     } else {
-       await AsyncStorage.setItem('@user', JSON.stringify(res.data.result[0].id));
+      await AsyncStorage.setItem('@user', JSON.stringify(res.data.result[0].id));
       await AsyncStorage.setItem('@userEmail', email);
       navigation.reset({
         index: 0,
@@ -70,8 +80,8 @@ export default function Login() {
   return (
     <View style={styles.container}>
       <StatusBar translucent hidden />
-      
-      <ImageBackground source={image}  style={styles.BG}>
+
+      <ImageBackground source={image} style={styles.BG}>
         <Image source={require('../../assets/cicloBG1.png')}></Image>
       </ImageBackground>
 
@@ -80,6 +90,8 @@ export default function Login() {
         <TextInput
           style={styles.login}
           placeholder="Email"
+          placeholderTextColor='#413B33'
+
           value={email}
           onChangeText={(email) => setEmail(email)}
         />

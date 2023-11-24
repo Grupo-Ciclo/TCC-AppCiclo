@@ -11,9 +11,8 @@ import { AntDesign, MaterialIcons, MaterialCommunityIcons, Ionicons } from '@exp
 import fonts from '../styles/fonts';
 
 import DrawerRoutes from './drawer.routes';
-import Usuario from '../screens/Usuario';
+import Pontos from '../screens/Pontos';
 import Mapa from '../screens/Map'
-import Loja from '../screens/Loja'
 import { DrawerActions, useNavigation } from '@react-navigation/native';
 
 
@@ -24,22 +23,24 @@ const AuthRoutes = () => {
     return (
         <AppTab.Navigator
             screenOptions={{
-                tabBarActiveTintColor: "green",
-                tabBarInactiveTintColor: 'gray',
+                tabBarActiveTintColor: "white",
+                tabBarInactiveTintColor: '#fff',
                 tabBarHideOnKeyboard: false,
                 tabBarLabelPosition: 'below-icon',
+                tabBarShowLabel: false,
                 headerShown: false,
                 tabBarStyle: {
                     height: 65,
-                    paddingTop: 10
+                    paddingTop: 10,
+                    backgroundColor: '#2F8643'
                 },
             }}
-
         >
+
+
             <AppTab.Screen
                 name="Inicio"
                 component={DrawerRoutes}
-
                 options={{
                     tabBarIcon: (({ size, color }) => (
                         <AntDesign
@@ -84,17 +85,17 @@ const AuthRoutes = () => {
                     ))
                 }}
             />
-
             <AppTab.Screen
-                name="Usuario"
-                component={Usuario}
+                name="Pontos"
+                component={Pontos}
                 options={{
                     tabBarIcon: (({ size, color }) => (
-                        <Ionicons
-                            name="person"
+                        <MaterialCommunityIcons
+                            name='shopping-outline'
                             size={size}
-                            color={color}
-                        />
+                            color="#fff">
+
+                        </MaterialCommunityIcons>
                     )),
 
                     tabBarLabel: (({ focused, color }) => (
@@ -131,7 +132,6 @@ const AuthRoutes = () => {
                     ))
                 }}
             />
-
             <AppTab.Screen
                 name="Mapa"
                 component={Mapa}
@@ -179,56 +179,7 @@ const AuthRoutes = () => {
                     ))
                 }}
             />
-
-            <AppTab.Screen
-                name="Loja"
-                component={Loja}
-                options={{
-                    tabBarIcon: (({ size, color }) => (
-                        <Ionicons
-                        name="pricetags"
-                        size={size}
-                        color={color}
-                    />
-                    )),
-
-                    tabBarLabel: (({ focused, color }) => (
-                        <View>
-                            <Text
-                                style={focused ? {
-                                    color: color,
-                                    fontFamily: fonts.text,
-                                    fontSize: 12,
-                                    textAlign: 'center',
-                                } : {
-                                    color: color,
-                                    fontFamily: fonts.text,
-                                    fontSize: 12
-                                }}
-                            >
-                                Loja
-                            </Text>
-                            <View
-                                style={focused ? {
-                                    backgroundColor: color,
-                                    borderColor: color,
-                                    width: 90,
-                                    height: 2,
-                                    borderTopLeftRadius: 5,
-                                    borderTopRightRadius: 5,
-                                    marginTop: 5,
-                                } : {
-                                    height: 2,
-                                }}
-                            >
-                            </View>
-                        </View>
-                    ))
-                }}
-            />
-
         </AppTab.Navigator>
-
     )
 }
 

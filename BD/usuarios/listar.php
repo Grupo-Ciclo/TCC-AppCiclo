@@ -9,11 +9,13 @@ $pagina = (isset($_GET['pagina'])) ? $_GET['pagina'] : 1;
 
 $inicio = ($limite * $pagina) - $limite;
 $coletorId = $postjson['user'];
-$query = $pdo->prepare("SELECT * FROM coletor");
+$query = $pdo->prepare("SELECT * FROM all_info INNER JOIN coletor ON id_info_coletor = id_coletor INNER JOIN lixeira ON id_info_lixeira = lixeira.id");
 
 $query->execute();
 
 $res = $query->fetchAll(PDO::FETCH_ASSOC);
+
+
 
 for ($i = 0; $i < count($res); $i++) {
     $dados[] = array(

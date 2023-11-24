@@ -12,15 +12,15 @@ useEffect(() => {
       setHasPermission(status === 'granted');
     })();
   }, []);
-const handleBarCodeScanned = ({ type, data }) => {
+const handleBarCodeScanned = ({ data }) => {
     setScanned(true);
-    alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+    alert(`Peso depositado: ${data}. Seus pontos agora estão habilitados`);
   };
 if (hasPermission === null) {
-    return <Text>Requesting for camera permission</Text>;
+    return <Text>Requerindo o acesso à câmera</Text>;
 }
 if (hasPermission === false) {
-    return <Text>No access to camera</Text>;
+    return <Text>Não temos acesso à câmera</Text>;
 }
 
 return (
@@ -29,10 +29,11 @@ return (
         onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
         style={StyleSheet.absoluteFillObject}
       />
-      {scanned && <Button title={'Tap to Scan Again'} onPress={() => setScanned(false)} />}
+      {scanned && <Button title={'Escanear Novamente'} onPress={() => setScanned(false)} />}
     </View>
   );
 }
+
 
 const styles = StyleSheet.create({
     container: {

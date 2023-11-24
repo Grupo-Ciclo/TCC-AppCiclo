@@ -21,7 +21,6 @@ export const Header = ({ title }= DadosProps) => {
                         <Ionicons name="md-arrow-back-circle-outline" size={35} color="#000" />
                     </TouchableOpacity>
         
-                    <Image style={styles.logo} source={require('../../assets/logo.png')} />
                     <Text style={styles.tituloHeader}>{title}</Text>
                 </View>
             </View>

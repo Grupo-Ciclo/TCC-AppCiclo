@@ -12,103 +12,74 @@ import { Evilions, Ionsions, AntDesign, Ionicons } from '@expo/vector-icons';
 const DadosProps = {
     data: {
         id: string,
-        lixeiraLocal: string,
+        local: string,
         QRcode: string,
         pesoAt: string,
         pesoMax: string,
     }
 }
 
-
 CardLixeira = ({ data } = DadosProps) => {
 
     const [abrirModal, setAbrirModal] = useState(false);
     const navigation = any = useNavigation();
 
-
-    async function excluir(nome, id) {
-
-        Alert.alert('Sair', `Você tem certeza que deseja excluir o Registro : ` + nome, [
-            {
-                text: 'Não',
-                style: 'cancel',
-            },
-
-            {
-                text: 'Sim',
-                onPress: async () => {
-                    try {
-                        const response = await api.get(`apiModelo/usuarios/excluir.php?id=${id}`);
-
-                        showMessage({
-                            message: "Excluído Sucesso",
-                            description: "Registro Excluído",
-                            type: "info",
-                            duration: 800,
-                        });
-
-                        navigation.push('Usuarios');
-                    } catch (error) {
-                        Alert.alert('Não foi possivel excluir, tente novamente!')
-                    }
-                }
-            }
-        ])
-    }
-
+    /*  async function excluir(nome, id) {
+ 
+         Alert.alert('Sair', `Você tem certeza que deseja excluir o Registro : ` + nome, [
+             {
+                 text: 'Não',
+                 style: 'cancel',
+             },
+ 
+             {
+                 text: 'Sim',
+                 onPress: async () => {
+                     try {
+                         const response = await api.get(`apiModelo/usuarios/excluir.php?id=${id}`);
+ 
+                         showMessage({
+                             message: "Excluído Sucesso",
+                             description: "Registro Excluído",
+                             type: "info",
+                             duration: 800,
+                         });
+ 
+                         navigation.push('Usuarios');
+                     } catch (error) {
+                         Alert.alert('Não foi possivel excluir, tente novamente!')
+                     }
+                 }
+             }
+         ])
+     } */
 
     return (
-
-
         <>
-
-
             {data.id === undefined && data.nome === undefined ?
-
                 <Text style={{ color: '#595858', fontSize: 14, marginTop: 10, alignContent: "center", textAlign: "center" }}>Nenhum Registro Encontrado!</Text>
-
                 :
-
-                <View>
-                    <SwipeableRow
-                        onPressWhatsapp={async () => {
-                            await Linking.openURL(`http://api.whatsapp.com/send?1=pt_BR&phone=55${data.nome}`)
-                        }}
-
-                        onPressEdit={async () => {
-                            navigation.push('NovoUsuario', { id_reg: data.id });
-                        }}
-
-                        onPressDelete={async () => {
-                            excluir(data.nome, data.id);
-                        }}
-
-
+                <View >
+                    <TouchableOpacity
+                        style={styles.box}
+                    /* onPress={() => setAbrirModal(true)} */
                     >
-                        <TouchableOpacity
-                            style={styles.box}
-                            onPress={() => setAbrirModal(true)}
-                        >
-                            <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', marginTop: -5 }}>
-                                <View style={{ width: 65 }}>
-                                    <Image style={{ width: 50, height: 50, }} source={{ uri: (url + 'apiModelo/imagem.jpg') }} />
-                                </View>
-                                <View style={{ width: '100%', marginTop: 3 }}>
-                                    <Text style={{ color: '#000', fontSize: 12 }}>{data.QRcode} - {data.id}</Text>
-                                    <Text style={{ color: '#000', fontSize: 12 }}>{data.lixeiraLocal} - PesoAt: {data.pesoAt}</Text>
-                                </View>
+                        <View style={{ flex: 1, flexDirection: 'row'}}>
+                            <View style={{ width: 65 }}>
+                                <Image style={{ width: 50, height: 10, }} source={{ uri: (url + 'apiModelo/imagem.jpg') }} />
                             </View>
-
-
-                        </TouchableOpacity>
-                    </SwipeableRow>
-
+                            <View style={{ width: '100%', marginTop: 3 }}>
+                                <Text style={{ color: '#000', fontSize: 12 }}>{data.QRcode}</Text>
+                                <Text style={{ color: '#000', fontSize: 12 }}>Local:{data.local}</Text>
+                            </View>
+                        </View>
+                        <View style={styles.btnVeja}>
+                            <Text style={styles.textBtnVeja}>Veja</Text>
+                        </View>
+                    </TouchableOpacity>
                 </View>
             }
-
-
-
-            <Modal
+            {/*  <Modal
                 visible={abrirModal}
                 animationType={'fade'}
                 transparent={true}
@@ -161,10 +132,7 @@ CardLixeira = ({ data } = DadosProps) => {
 
                     </View>
                 </View>
-            </Modal>
-
-
-
+            </Modal> */}
         </>
     );
 }

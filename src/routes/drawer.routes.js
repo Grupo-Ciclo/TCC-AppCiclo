@@ -6,8 +6,7 @@ import { useNavigation } from '@react-navigation/core';
 
 import Home from '../screens/Home';
 import CustomDrawer from '../components/CustomDrawer';
-import Usuario from '../screens/Usuario';
-import Loja from '../screens/Loja';
+import Usuario from '../screens/Pontos';
 
 const DrawerRoutes = () => {
 
@@ -19,7 +18,7 @@ const DrawerRoutes = () => {
             screenOptions={{
                 headerShown: false,
                 drawerStyle: {
-                    width: 300,
+                    width: 230,
                     height: '100%',
                     backgroundColor: '#f2f2f2',
                     zIndex: 11,

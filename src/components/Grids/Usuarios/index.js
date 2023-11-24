@@ -11,14 +11,12 @@ import { Evilions, Ionsions, AntDesign, Ionicons } from '@expo/vector-icons';
 
 const DadosProps = {
     data: {
-        id_coletor: string,
-        nome_coletor: string,
-        email_coletor: string,
-        senha_coletor: string,
-        pontos_coletor: string,
-        contabancaria_coletor: string,
-        telefone_coletor: string,
-        local_coletor: string
+        id: string,
+        nome: string,
+        email: string,
+        senha: string,
+        nivel: string,
+        foto: string,
     }
 }
 
@@ -29,9 +27,9 @@ CardUsuarios = ({ data } = DadosProps) => {
     const navigation = any = useNavigation();
 
 
-    async function excluir(nome_coletor, id_coletor) {
+    async function excluir(nome, id) {
 
-        Alert.alert('Sair', `Você tem certeza que deseja excluir o Registro : ` + nome_coletor, [
+        Alert.alert('Sair', `Você tem certeza que deseja excluir o Registro : ` + nome, [
             {
                 text: 'Não',
                 style: 'cancel',
@@ -41,7 +39,7 @@ CardUsuarios = ({ data } = DadosProps) => {
                 text: 'Sim',
                 onPress: async () => {
                     try {
-                        const response = await api.get(`TCC-Ciclo/BD/deletar.php?id=${id_coletor}`);
+                        const response = await api.get(`apiModelo/usuarios/excluir.php?id=${id}`);
 
                         showMessage({
                             message: "Excluído Sucesso",
@@ -75,7 +73,7 @@ CardUsuarios = ({ data } = DadosProps) => {
                 <View>
                     <SwipeableRow
                         onPressWhatsapp={async () => {
-                            await Linking.openURL(`http://api.whatsapp.com/send?1=pt_BR&phone=55${data.nome_coletor}`)
+                            await Linking.openURL(`http://api.whatsapp.com/send?1=pt_BR&phone=55${data.nome}`)
                         }}
 
                         onPressEdit={async () => {
@@ -97,8 +95,8 @@ CardUsuarios = ({ data } = DadosProps) => {
                                     <Image style={{ width: 50, height: 50, }} source={{ uri: (url + 'apiModelo/imagem.jpg') }} />
                                 </View>
                                 <View style={{ width: '100%', marginTop: 3 }}>
-                                    <Text style={{ color: '#000', fontSize: 12 }}>{data.nome_coletor} - Pontos: {data.pontos_coletor}</Text>
-                                    <Text style={{ color: '#000', fontSize: 12 }}>{data.email_coletor} - Senha: {data.senha_coletor}</Text>
+                                    <Text style={{ color: '#000', fontSize: 12 }}>{data.nome} - {data.nivel}</Text>
+                                    <Text style={{ color: '#000', fontSize: 12 }}>{data.email} - Senha: {data.senha}</Text>
                                 </View>
                             </View>
 
@@ -139,9 +137,27 @@ CardUsuarios = ({ data } = DadosProps) => {
 
                         <View style={styles.Section}>
                             <Ionsions style={styles.Icon} name="mail" size={22} color="#c1c1c1" />
-                            <Text style={styles.Entrada}>Email: {data.email_coletor}</Text>
-                            <Text style={styles.Entrada}>Senha: {data.senha_coletor}</Text>
+                            <Text style={styles.Entrada}>Email: {data.email}</Text>
+                            <Text style={styles.Entrada}>Senha: {data.senha}</Text>
                         </View>
+
+
+                        <TouchableOpacity onPress={() => Linking.openURL(url + 'painel/images/perfil/' + data.foto)}>
+                            {(() => {
+                                if (data.foto != 'sem-foto.jpg' && data.foto != '' && data.foto != null) {
+
+                                    return (
+                                        <View style={styles.viewImg}>
+                                            <Image style={styles.ImagemModal} source={{ uri: (url + 'painel/images/perfil/' + data.foto) }} />
+                                            <Text style={styles.textoAbrir}>(Clique para Abrir)</Text>
+                                        </View>
+                                    )
+
+                                }
+
+                            })()}
+                        </TouchableOpacity>
+
 
 
                     </View>

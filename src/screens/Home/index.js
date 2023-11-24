@@ -1,7 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import { styles } from './style';
-import { ScrollView, ActivityIndicator, FlatList, Image, Text, TextInput, TouchableOpacity, View, Dimensions, RefreshControl, StatusBar, Alert } from 'react-native';
+import { ScrollView, ActivityIndicator, FlatList, Image, Text, TextInput, TouchableOpacity, View, Dimensions, RefreshControl, StatusBar, Alert, ImageBackground } from 'react-native';
 import Header from '../../components/Header';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import api from '../../services/api';
@@ -10,109 +10,107 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { DrawerActions } from "@react-navigation/native";
 import { useIsFocused } from '@react-navigation/native';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
-
+import image from '../../assets/cicloBG.png';
+import Grid from '../../components/Grids/Lixeira';
 export default function Home() {
 
     const navigation = useNavigation();
     const isFocused = useIsFocused();
 
-    const [isLoading, setIsLoading] = useState(true);
-    const [refreshing, setRefreshing] = useState(false);
-    const [conta, setConta] = useState('');
-    const [email, setEmail] = useState('');
-    const [pontos, setPontos] = useState(0)
-    const [data, setData] = useState(null);
+    const [lista, setLista] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [page, setPage] = useState(1);
+    const [totalItems, setTotalItems] = useState(0);
+    const [onEndReachedCalledDuringMomentum, setMT] = useState(true);
 
     async function listarDados() {
         try {
-            const user = await AsyncStorage.getItem('@user');
-            console.log(user);
-            const res = await api.get(`TCC-Ciclo/bd/usuarios/listar_id.php?user=${user}`);
-            setData(res.data);
-            const pontos_coletor= res.data.result[4].pontos_coletor;
-            setPontos(res.data.result.map(item => item.pontos_coletor));
+            /* const response = await api.get(`TCC-Ciclo/bd/lixeira/listar.php?pagina=${page}&limite=10`); */
+            const response = await api.get(`TCC-Ciclo/bd/lixeira/lixeira.php?pagina=${page}&limite=10`);
+            if (lista.length >= response.data.totalItems) return;
 
-           setPontos(pontos);
-            console.log(data)
-            console.log("aaaaa")
-            console.log(data.conta)
-            console.log(res.data);
-            
+            if (loading === true) return;
+
+            setLoading(true);
+
+            setLista([...lista, ...response.data.resultado]);
+            setPage(page + 1);
         } catch (error) {
-            console.log("Erro ao Listar " + error);
-        } finally {
-            setRefreshing(false);
-            setIsLoading(true);
+            console.log(error)
         }
-
+    }
+    const renderItem = function ({ item }) {
+        return (
+            <Grid
+                data={item}
+            />
+        )
     }
 
+    /* Get user Info */
+    const [userData, setUserData] = useState(null);
+    async function getUserData() {
+        try {
+            const userData = await AsyncStorage.getItem('userData');
+            return userData ? JSON.parse(userData) : null;
+        } catch (error) {
+            console.log('Error retrieving user data:', error);
+            return null;
+        }
+    }
     useEffect(() => {
+        const fetchUserData = async () => {
+            const data = await getUserData();
+            setUserData(data);
+        };
+        fetchUserData();
         listarDados();
-    }, [isFocused]);
+    }, [page, totalItems, isFocused]);
 
     const onRefresh = () => {
-        setRefreshing(true);
         listarDados();
     };
     return (
         <View style={styles.container}>
-            <StatusBar barStyle="light-content" />
-            <View style={{ flex: 1 }}>
-                <View style={styles.header}>
-                    <View style={styles.containerHeader}>
-                        <Text style={styles.lenghtText}>Ciclo</Text>
-                        {/* <Text>Logado: {data.nome} </Text> */}
-                        <TouchableOpacity
-                            style={styles.menu}
-                            onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
-                        >
-                            <MaterialIcons name="menu" size={35} color="black" />
-                        </TouchableOpacity>
-                        <Text
-
-                            style={styles.loginSave}
-                            onPress={listarDados}
-                        > </Text>
-
-                    </View>
-                </View>
-                <ScrollView
-                    style={{ flex: 1 }}
-                    showsVerticalScrollIndicator={false}
-                    nestedScrollEnabled={true}
-                    refreshControl={
-                        <RefreshControl
-                            refreshing={refreshing}
-                            onRefresh={onRefresh}
-                        />
-                    }
+            <View style={styles.header}>
+                <TouchableOpacity
+                    style={styles.menu}
+                    onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
                 >
-                        <View style={styles.containerBox}>
+                    <MaterialIcons name="menu" size={35} color="black" />
+                </TouchableOpacity>
+            </View>
 
-                        <TouchableOpacity onPress={() => navigation.navigate("Loja")}>
-                            <View>
-                                <View style={styles.box}>
-                                        {
+            <View style={styles.headerPontos}>
 
-                                            (fill) => (
-                                                <Text style={styles.numberInside}> {pontos} </Text>
-                                            )
-                                        }
-                                    <View style={styles.textos}>
-                                        <Text style={styles.rText}>Gaste seus pontos!</Text>
-                                        <Text style={styles.lenghtText}></Text>
-                                    </View>
-                                </View>
-                                <Text style={styles.textFooter}></Text>
-                            </View>
-                        </TouchableOpacity>
+                <View style={styles.userPicture}>
+                    <Image style={styles.logo} source={require('../../assets/UserIcon.png')} />
+                </View>
+                <View style={styles.userName}>
+                    <Text>{userData?.nome}</Text>
+                </View>
+            </View>
 
-                    </View> 
-
-
-
-                </ScrollView>
+            <View style={styles.containerBox}>
+                <TouchableOpacity onPress={() => navigation.navigate("Pontos")}>
+                    <View>
+                        <View style={styles.box}>
+                            <ImageBackground source={image} style={styles.imageBack}
+                                imageStyle={{ borderRadius: 25 }}
+                            >
+                                <Text style={styles.rText}>Você possui: </Text>
+                                <Text style={styles.lenghtText}>{userData?.pontos} pontos</Text>
+                            </ImageBackground>
+                        </View>
+                    </View>
+                </TouchableOpacity>
+            </View>
+            <View style={styles.containerLugares}>
+                <Text style={styles.textLugares}>Lixeiras próximas:</Text>
+                <FlatList
+                    data={lista}
+                    renderItem={renderItem}
+                />
             </View>
         </View>
     )
